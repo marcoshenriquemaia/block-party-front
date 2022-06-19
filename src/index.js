@@ -1,8 +1,10 @@
 import { move } from "./gameRules/move.js";
 import { renderFloor } from "./gameRules/renderFloor.js";
+import { renderRank } from "./gameRules/renderRank.js";
 import { renderRoom } from "./gameRules/renderRoom.js";
 import { renderSelectAvatar } from "./gameRules/renderSelectAvatar.js";
 import { floorListener } from "./listeners/floor.js";
+import { updateRankListener } from "./listeners/updateRank.js";
 import { updateRoomListener } from "./listeners/updateRoom.js";
 import { userJoinListener } from "./listeners/userJoin.js";
 import { userLeftListener } from "./listeners/userLeft.js";
@@ -16,7 +18,8 @@ let moveLeft,
   moveDown,
   moveUp = false;
 
-const socket = new io('http://localhost:3334');
+const socket = new io('https://blockpartyapi.pikpicture.com');
+// const socket = new io('http://localhost:3334');
 
 let currentRoom = null
 let currentFloor = null
@@ -24,20 +27,6 @@ let currentFloor = null
 const $canvas = document.querySelector('.canvas')
 
 const ctx = $canvas.getContext('2d')
-
-const Block = {
-  render: ({ position, width, height, type, positiony, positionx, color }) => {
-    if (color) {
-      ctx.fillStyle = color;
-      return ctx.fillRect(position.x, position.y, width, height);
-    }
-    const img = new Image();
-    img.src = imgDictionarie[type];
-    position
-      ? ctx.drawImage(img, position.x, position.y, width, height)
-      : ctx.drawImage(img, positionx, positiony, width, height);
-  },
-}
 
 socket.emit('join', {
   name: 'Player',
@@ -109,3 +98,7 @@ $name.addEventListener('input', () => {
 })
 
 renderSelectAvatar(socket)
+
+updateRankListener({ io: socket, ctx }, (rank) => {
+  renderRank(rank)
+})
