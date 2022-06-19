@@ -20,9 +20,9 @@ let moveLeft,
   moveDown,
   moveUp = false;
 
-// const socket = new io('https://blockpartyapi.pikpicture.com');
+const socket = new io('https://blockpartyapi.pikpicture.com');
 // const socket = new io('https://logs.sa.ngrok.io');
-const socket = new io('http://localhost:3334');
+// const socket = new io('http://localhost:3334');
 
 let currentRoom = null
 let currentFloor = null
