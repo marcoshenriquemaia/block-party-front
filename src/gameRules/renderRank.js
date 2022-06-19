@@ -6,7 +6,7 @@ export const renderRank = (usersRank) => {
   usersRank.forEach((user) => {
     const $user = document.createElement('div')
     $user.classList.add('user')
-    $user.textContent = `${user.name} - ${user.score}`
+    $user.textContent = `${user.score} - ${user.name}`
 
     $rank.appendChild($user)
   })

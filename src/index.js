@@ -10,10 +10,11 @@ import { updateRankListener } from "./listeners/updateRank.js";
 import { updateRoomListener } from "./listeners/updateRoom.js";
 import { userJoinListener } from "./listeners/userJoin.js";
 import { userLeftListener } from "./listeners/userLeft.js";
-import { imgDictionarie } from "./MOCKS/images.js";
 
 const $color = document.querySelector(".color");
 const $name = document.querySelector("#name");
+const $configButtom = document.querySelector(".config-button");
+const $modal = document.querySelector('.modal')
 
 let moveLeft,
   moveRight,
@@ -101,12 +102,22 @@ timerListener({ io: socket }, (time) => {
   RenderTime(time)
 })
 
-$name.addEventListener('input', () => {
-  socket.emit('user:rename', $name.value);
-})
-
 renderSelectAvatar(socket)
 
 updateRankListener({ io: socket, ctx }, (rank) => {
   renderRank(rank)
+})
+
+$name.addEventListener('input', () => {
+  socket.emit('user:rename', $name.value);
+})
+
+$configButtom.addEventListener('click', () => {
+  $modal.classList.toggle('show')
+})
+
+$modal.addEventListener('click', (e) => {
+  if (e.target.classList.contains('modal')) {
+    $modal.classList.remove('show')
+  }
 })
