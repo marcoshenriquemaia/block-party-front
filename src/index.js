@@ -3,7 +3,9 @@ import { renderFloor } from "./gameRules/renderFloor.js";
 import { renderRank } from "./gameRules/renderRank.js";
 import { renderRoom } from "./gameRules/renderRoom.js";
 import { renderSelectAvatar } from "./gameRules/renderSelectAvatar.js";
+import { RenderTime } from "./gameRules/renderTimer.js";
 import { floorListener } from "./listeners/floor.js";
+import { timerListener } from "./listeners/time.js";
 import { updateRankListener } from "./listeners/updateRank.js";
 import { updateRoomListener } from "./listeners/updateRoom.js";
 import { userJoinListener } from "./listeners/userJoin.js";
@@ -18,9 +20,9 @@ let moveLeft,
   moveDown,
   moveUp = false;
 
-const socket = new io('https://blockpartyapi.pikpicture.com');
+// const socket = new io('https://blockpartyapi.pikpicture.com');
 // const socket = new io('https://logs.sa.ngrok.io');
-// const socket = new io('http://localhost:3334');
+const socket = new io('http://localhost:3334');
 
 let currentRoom = null
 let currentFloor = null
@@ -92,6 +94,11 @@ userLeftListener({ io: socket, ctx }, (room) => {
 floorListener({ io: socket, ctx }, (floor) => {
   currentFloor = floor
   $color.style.backgroundColor = floor.color
+  $canvas.style.borderColor = floor.color
+})
+
+timerListener({ io: socket }, (time) => {
+  RenderTime(time)
 })
 
 $name.addEventListener('input', () => {
