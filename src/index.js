@@ -73,7 +73,7 @@ const run = () => {
   ctx.clearRect(0, 0, $canvas.width, $canvas.height);
   move({ io: socket, moveLeft, moveRight, moveUp, moveDown });
   renderFloor({ ctx, floor: currentFloor });
-  currentRoom && renderRoom(currentRoom, ctx)
+  currentRoom && renderRoom(currentRoom, ctx, socket)
 }
 
 setInterval(run, 15)
